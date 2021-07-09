@@ -7,7 +7,7 @@ namespace Algorithms
 	/// Complexity - O(n^2)
 	/// </summary>
 	/// <param name="arr"></param>
-	/// <param name="step"> - must be incremented before using again</param>
+	/// <param name="step"> - step must be incremented before using again</param>
 	void insertionSort(std::vector<int>& arr, int step);
 
 	/// <summary>
@@ -21,7 +21,7 @@ namespace Algorithms
 	/// Complexity - O(n^2)
 	/// </summary>
 	/// <param name="arr"></param>
-	/// <param name="step"> - must be incremented before using again</param>
+	/// <param name="step"> - step must be incremented before using again</param> 
 	void selectionSort(std::vector<int>& arr, int step);
 }
 

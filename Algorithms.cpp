@@ -1,6 +1,5 @@
 #include "Algorithms.h"
 
-
 void Algorithms::bubbleSort(std::vector<int>& arr, int step)
 {
 	if (step < arr.size())
