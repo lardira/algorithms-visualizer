@@ -23,5 +23,12 @@ namespace Algorithms
 	/// <param name="arr"></param>
 	/// <param name="step"> - step must be incremented before using again</param> 
 	void selectionSort(std::vector<int>& arr, int step);
+
+	enum class Type
+	{
+		bubbleSort,
+		insertionSort,
+		selectionSort
+	};
 }
 
