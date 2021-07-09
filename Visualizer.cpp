@@ -123,6 +123,7 @@ private:
 
 void draw(std::vector<int>& arr, Algorithms::Type type)
 {
+	bool showing = false;
 	const unsigned int screenSize[2] = { 1080, 1080 };
 	sf::RenderWindow window = { sf::VideoMode(screenSize[0], screenSize[1]), "Agorithms Visualizer" };
 
@@ -137,9 +138,12 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 		return;
 
 	Info description(type, arr.size());
-
 	sf::Text info(description.GetInfo(), font, 32);
-	sf::Text hints("F1: bubble sort F2: insertion sort F3: selection sort", font, 24);
+
+	std::string hintsText = "F1: bubble sort F2: insertion sort F3: selection sort\n";
+	hintsText = hintsText + "Space: play/pause";
+	sf::Text hints(hintsText, font, 24);
+
 	info.setFillColor(sf::Color::Green);
 	hints.setFillColor(sf::Color::Green);
 	hints.setPosition(sf::Vector2f(window.getSize().x / 2 - 100, 0));
@@ -161,6 +165,9 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 			if(event.type == sf::Event::KeyPressed)
 				switch (event.key.code)
 				{
+				case sf::Keyboard::Space:
+					showing = !showing;
+					break;
 				case sf::Keyboard::F1:
 					type = Algorithms::Type::bubbleSort;
 					step = 0;
@@ -197,7 +204,7 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 
 		//calls sorting algorithm (step is required cuz it's using 
 		// a sorting algorithm in a while loop
-		if (step < arr.size())
+		if (step < arr.size() && showing)
 		{
 			switch (type)
 			{
