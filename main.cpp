@@ -17,10 +17,9 @@ int main()
 
 	//shows array values in the console
 	//uncomment if you don't need console
-	//ShowWindow(GetConsoleWindow(), SW_HIDE); //for hiding console
+	ShowWindow(GetConsoleWindow(), SW_HIDE); //for hiding console
 	//Arrays::showArray(exampleArray);
 
 	Visualizer::draw(exampleArray, Algorithms::Type::bubbleSort);
-	system("pause");
 }
 

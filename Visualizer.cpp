@@ -192,6 +192,10 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 					info.setString(description.GetInfo());
 					break;
 
+				case sf::Keyboard::Escape:
+					std::exit(1);
+					break;
+
 				default:
 					break;
 				}
