@@ -26,6 +26,22 @@ void fillRodsArray(std::vector<sf::RectangleShape>& rods, std::vector<int>& arr,
 	}
 }
 
+void colorRods(std::vector<sf::RectangleShape>& rods, std::pair<int, int>& idsCompared)
+{
+	for (size_t i = 0; i < rods.size(); i++)
+		if (i != idsCompared.first || i != idsCompared.second)
+			rods[i].setFillColor(sf::Color::White);
+
+	rods[idsCompared.first].setFillColor(sf::Color::Green);
+	rods[idsCompared.second].setFillColor(sf::Color::Green);
+}
+
+void clearRods(std::vector<sf::RectangleShape>& rods)
+{
+	for (size_t i = 0; i < rods.size(); i++)
+		rods[i].setFillColor(sf::Color::White);
+}
+
 //easier and more readable way of storing algorithms info
 static struct Info
 {
@@ -124,12 +140,14 @@ private:
 void draw(std::vector<int>& arr, Algorithms::Type type)
 {
 	bool showing = false;
-	const unsigned int screenSize[2] = { 1080, 1080 };
+	const unsigned int screenSize[2] = { 1000, 1000 };
 	sf::RenderWindow window = { sf::VideoMode(screenSize[0], screenSize[1]), "Agorithms Visualizer" };
 
 	std::vector<sf::RectangleShape> rods;
-
+	std::pair<int, int> idsCompared;
 	const std::vector<int> copyArray(arr);
+
+	int timeToSLeep = 50;
 
 	//create a graphical text to display later
 	sf::Font font;
@@ -146,7 +164,7 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 
 	info.setFillColor(sf::Color::Green);
 	hints.setFillColor(sf::Color::Green);
-	hints.setPosition(sf::Vector2f(window.getSize().x / 2 - 100, 0));
+	hints.setPosition(sf::Vector2f((int)window.getSize().x / 2 - 100, 0));
 
 	fillRodsArray(rods, arr, window);
 
@@ -162,45 +180,45 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if(event.type == sf::Event::KeyPressed)
+			if (event.type == sf::Event::KeyPressed)
+			{
 				switch (event.key.code)
 				{
+				case sf::Keyboard::F1: 
+				case sf::Keyboard::F2: 
+				case sf::Keyboard::F3:
+						type = (Algorithms::Type)(event.key.code - sf::Keyboard::F1);
+						idsCompared.first = 0;
+						idsCompared.second = 0;
+						step = 0;
+						arr = copyArray;
+						description.SetAlgorithmType(type);
+						info.setString(description.GetInfo());
+					break;
+
 				case sf::Keyboard::Space:
 					showing = !showing;
-					break;
-				case sf::Keyboard::F1:
-					type = Algorithms::Type::bubbleSort;
-					step = 0;
-					arr = copyArray;
-					description.SetAlgorithmType(type);
-					info.setString(description.GetInfo());
-					break;
-
-				case sf::Keyboard::F2:
-					type = Algorithms::Type::insertionSort;
-					step = 0;
-					arr = copyArray;
-					description.SetAlgorithmType(type);
-					info.setString(description.GetInfo());
-					break;
-
-				case sf::Keyboard::F3:
-					type = Algorithms::Type::selectionSort;
-					step = 0;
-					arr = copyArray;
-					description.SetAlgorithmType(type);
-					info.setString(description.GetInfo());
 					break;
 
 				case sf::Keyboard::Escape:
 					std::exit(1);
 					break;
 
+				case sf::Keyboard::Up:
+					timeToSLeep = timeToSLeep < 500 ? timeToSLeep + 50 : timeToSLeep;
+					break;
+
+				case sf::Keyboard::Down:
+					timeToSLeep = timeToSLeep - 50 > 0 ? timeToSLeep - 50 : 0;
+					break;
+
 				default:
 					break;
 				}
+			}
 		}
-
+		
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeToSLeep));
 		window.clear();
 		//show info
 		window.draw(info);
@@ -213,15 +231,15 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 			switch (type)
 			{
 			case Algorithms::Type::bubbleSort:
-				Algorithms::bubbleSort(arr, step);
+				Algorithms::bubbleSort(arr, step, idsCompared);
 				break;
 
 			case Algorithms::Type::insertionSort:
-				Algorithms::insertionSort(arr, step);
+				Algorithms::insertionSort(arr, step, idsCompared);
 				break;
 
 			case Algorithms::Type::selectionSort:
-				Algorithms::selectionSort(arr, step);
+				Algorithms::selectionSort(arr, step, idsCompared);
 				break;
 
 			default:
@@ -231,6 +249,8 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 			step++;
 		}
 
+		//color rods that's being compared or clear them if the program is done visualization
+		step < rods.size() ? colorRods(rods, idsCompared) : clearRods(rods);
 		//draws updated rods
 		drawRods(rods, arr, window);
 		window.display();

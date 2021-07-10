@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "Algorithms.h"
+#include <thread>
+#include <chrono>
 
 namespace Visualizer
 {
@@ -21,6 +23,8 @@ namespace Visualizer
 	/// <param name="window"> - Window to draw things in</param>
 	void fillRodsArray(std::vector<sf::RectangleShape>& rods, std::vector<int>& arr, sf::RenderWindow& window);
 	
+	void colorRods(std::vector<sf::RectangleShape>& rods, std::pair<int, int>& idsCompared);
+
 	/// <summary>
 	/// Main draw loop, sets up the window and draws everything
 	/// </summary>

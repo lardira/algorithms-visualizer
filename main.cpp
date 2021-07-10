@@ -9,7 +9,7 @@
 int main()
 {
 
-	const int arraySize = 1000;
+	const int arraySize = 250;
 	const int range[2] = { 50, 900 };
 	std::vector<int> exampleArray;
 
