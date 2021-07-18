@@ -26,7 +26,7 @@ void fillRodsArray(std::vector<sf::RectangleShape>& rods, std::vector<int>& arr,
 	}
 }
 
-void colorRods(std::vector<sf::RectangleShape>& rods, std::pair<int, int>& idsCompared)
+void colorRods(std::vector<sf::RectangleShape>& rods, std::pair<int, int>& idsCompared, int step)
 {
 	for (size_t i = 0; i < rods.size(); i++)
 		if (i != idsCompared.first || i != idsCompared.second)
@@ -34,6 +34,7 @@ void colorRods(std::vector<sf::RectangleShape>& rods, std::pair<int, int>& idsCo
 
 	rods[idsCompared.first].setFillColor(sf::Color::Green);
 	rods[idsCompared.second].setFillColor(sf::Color::Green);
+	rods[step].setFillColor(sf::Color::Blue);
 }
 
 void clearRods(std::vector<sf::RectangleShape>& rods)
@@ -239,7 +240,7 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 				case sf::Keyboard::Tilde:
 					hintsPanel.isEnabled = !hintsPanel.isEnabled;
 					break;
-
+					//reset variabled and switch to another algorithm
 				case sf::Keyboard::F1:
 				case sf::Keyboard::F2:
 				case sf::Keyboard::F3:
@@ -307,7 +308,7 @@ void draw(std::vector<int>& arr, Algorithms::Type type)
 		}
 
 		//color rods that's being compared or clear them if the program is done visualization
-		step < rods.size() ? colorRods(rods, idsCompared) : clearRods(rods);
+		step < rods.size() ? colorRods(rods, idsCompared, step) : clearRods(rods);
 		//draws updated rods
 		drawRods(rods, arr, window);
 		//drawing algorithm description

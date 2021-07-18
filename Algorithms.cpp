@@ -4,15 +4,16 @@ void Algorithms::bubbleSort(std::vector<int>& arr, int step, std::pair<int, int>
 {
 	if (step < arr.size())
 		for (int j = 0; j < arr.size() - 1 - step; j++)
+		{
 			if (arr[j] > arr[j + 1])
 			{
 				int temp = arr[j + 1];
 				arr[j + 1] = arr[j];
 				arr[j] = temp;
-
-				idsCompared.first = j + 1;
-				idsCompared.second = j;
 			}
+			idsCompared.first = j + 1;
+			idsCompared.second = j;
+		}
 
 }
 
